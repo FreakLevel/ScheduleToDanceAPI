@@ -18,9 +18,9 @@ class AppointmentObserver
       $date = new DateTime($schedule->format('Y-m-d H:i'));
       $today = new DateTime(date('Y-m-d H:i', time()));
       if ($date->diff($today)->format('%r') != '') {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     }
 
@@ -36,9 +36,9 @@ class AppointmentObserver
       $date = new DateTime($schedule->format('Y-m-d H:i'));
       $today = new DateTime(date('Y-m-d H:i', time()));
       if ($date->diff($today)->format('%r') != '') {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     }
 }
