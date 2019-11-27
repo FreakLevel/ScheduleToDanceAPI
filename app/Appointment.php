@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    protected $dateFormat = 'Y-m-d H:i';
+  protected $table = 'appointment';
+
+  protected $dateFormat = 'Y-m-d H:i';
+
+  protected $fillable = ['email', 'name', 'schedule'];
 }
