@@ -8,6 +8,7 @@ use App\Rules\FreeAppointment;
 use App\Rules\WorkingHours;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class AppointmentController extends Controller
 {
@@ -33,15 +34,11 @@ class AppointmentController extends Controller
       if ($validator->fails()) {
         return response()->json($validator->errors()->all(), 400);
       } else {
-        $data = $request->all();
-        $appointment = new Appointment;
-        $appointment->email = $data['email'];
-        $appointment->name = $data['name'];
-        $appointment->schedule = $data['schedule'];
-        if ($appointment->save()) {
+        try {
+          $appointment = Appointment::create($request->all());
           return response()->json($appointment, 201);
-        } else {
-          return response()->json($appointment, 400);
+        } catch (Exception $e){
+          return response()->json("{'error': 'Error at save on database, try later.'}", 400);
         }
       }
     }
