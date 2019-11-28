@@ -15,9 +15,9 @@ class AppointmentObserver
     public function creating(Appointment $appointment)
     {
       $schedule = $appointment->schedule;
-      $date = date_create()->setTimestamp($schedule);
+      $date = date_create($schedule);
       $today = date_create_from_format('Y-m-d H:i', date('Y-m-d H:i'));
-      if ($date->diff($today)->format('%r') == '') {
+      if ($today->diff($date)->format('%r') == '') {
         return true;
       } else {
         return false;

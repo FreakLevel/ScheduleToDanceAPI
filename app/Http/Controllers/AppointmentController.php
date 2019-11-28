@@ -37,8 +37,7 @@ class AppointmentController extends Controller
         $appointment = new Appointment;
         $appointment->email = $data['email'];
         $appointment->name = $data['name'];
-        $appointment->schedule = date_create_from_format('Y-m-d H:i', $data['schedule'])->getTimestamp();
-        var_dump($appointment);
+        $appointment->schedule = $data['schedule'];
         if ($appointment->save()) {
           return response()->json($appointment, 201);
         } else {
