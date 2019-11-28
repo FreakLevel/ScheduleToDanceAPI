@@ -5,6 +5,7 @@ namespace App\Rules;
 use App\Appointment;
 use App\Http\Resources\AppointmentResource;
 use Illuminate\Contracts\Validation\Rule;
+use DateInterval;
 
 class FreeAppointment implements Rule
 {
@@ -27,14 +28,13 @@ class FreeAppointment implements Rule
      */
     public function passes($attribute, $value)
     {
-        $schedule = date_create_from_format('Y-m-d H:i', $value);
-        $before = $schedule->modify('-1 hours');
-        $after = $schedule->modify('+1 hours');
+        $schedule = date_create_immutable_from_format('Y-m-d H:i', $value);
+        $before = $schedule->sub(new DateInterval('PT1H'));
+        $after = $schedule->add(new DateInterval('PT1H'));
         $appointments = AppointmentResource::collection(Appointment::
-            where([
-                ['schedule', '>=', $before],
-                ['schedule', '<=', $after]
-            ])->get());
+            where('schedule', '>=', $before)->
+            where('schedule', '<=', $after)->
+            get());
         return count($appointments->collection->all()) === 0;
     }
 
